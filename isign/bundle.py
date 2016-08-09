@@ -198,8 +198,11 @@ class App(Bundle):
     def provision(self, provision_path):
         shutil.copyfile(provision_path, self.provision_path)
 
-    def create_entitlements(self, team_id):
-        bundle_id = self.info['CFBundleIdentifier']
+    def create_entitlements(self, team_id, entitlements_bundleid):
+        if not entitlements_bundleid:
+            bundle_id = self.info['CFBundleIdentifier']
+        else:
+            bundle_id = entitlements_bundleid
         entitlements = {
             "keychain-access-groups": [team_id + '.' + bundle_id],
             "com.apple.developer.team-identifier": team_id,
@@ -209,8 +212,8 @@ class App(Bundle):
         biplist.writePlist(entitlements, self.entitlements_path, binary=False)
         # log.debug("wrote Entitlements to {0}".format(self.entitlements_path))
 
-    def resign(self, signer, provisioning_profile):
+    def resign(self, signer, provisioning_profile, entitlements):
         """ signs app in place """
         self.provision(provisioning_profile)
-        self.create_entitlements(signer.team_id)
+        self.create_entitlements(signer.team_id, entitlements)
         super(App, self).resign(signer)

@@ -60,6 +60,13 @@ def parse_args():
         help='Path to your organization\'s certificate in .pem form'
     )
     parser.add_argument(
+        '-e', '--entitlements',
+        dest='entitlements',
+        required=False,
+        metavar='<entitlements-bundleid>',
+        help='The bundleid in entitlements.plist'
+    )
+    parser.add_argument(
         '-o', '--output',
         dest='output_path',
         required=False,
@@ -120,7 +127,8 @@ if __name__ == '__main__':
                        'key',
                        'apple_cert',
                        'provisioning_profile',
-                       'output_path']
+                       'output_path',
+                       'entitlements']
         kwargs = {}
         # we want the unused command line args to be
         # missing in kwargs, so the defaults are used

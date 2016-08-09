@@ -37,6 +37,7 @@ def resign(input_path,
            apple_cert=APPLE_CERT_PATH,
            provisioning_profile=PROVISIONING_PROFILE_PATH,
            output_path=join(os.getcwd(), "out"),
+           entitlements=None,
            info_props=None):
     """ simply for convenience, and to omit default args """
     try:
@@ -46,6 +47,7 @@ def resign(input_path,
                               apple_cert,
                               provisioning_profile,
                               output_path,
+                              entitlements,
                               info_props)
     except exceptions.NotSignable as e:
         # re-raise the exception without exposing internal
@@ -58,3 +60,6 @@ def view(input_path):
         return archive.view(input_path)
     except exceptions.NotSignable as e:
         raise NotSignable(e)
+
+def show():
+    print "this is a show os resign"
